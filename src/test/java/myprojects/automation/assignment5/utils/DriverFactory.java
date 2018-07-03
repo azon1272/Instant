@@ -57,7 +57,7 @@ public class DriverFactory {
 
                 System.setProperty(
                         "webdriver.chrome.driver",
-                        ("/usr/local/bin/chromedriver"));
+                        ("chromedriver"));
                 return new ChromeDriver();
         }
     }
