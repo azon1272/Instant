@@ -5,8 +5,8 @@
 
 
 
-    <test name="Signature and flow [android]">
-        <parameter name="selenium.browser" value="android"/>
+    <test name="Signature and flow [ubuntu]">
+        <parameter name="selenium.browser" value="ubuntu"/>
         <classes>
             <class name="myprojects.automation.assignment5.tests.PlaceOrderTest"/>
         </classes>
