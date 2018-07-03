@@ -54,7 +54,10 @@ public class DriverFactory {
                 return new ChromeDriver();
 
             case "ubuntu":
-				Runtime.getRuntime().exec("chmod 755 chromedriver");
+				File file = new File("chromedriver");
+				file.setReadable(true, true);
+				file.setWritable(true, true);
+				file.setExecutable(true,true);
                 System.setProperty(
                         "webdriver.chrome.driver",
                         ("chromedriver"));
