@@ -47,9 +47,17 @@ public class DriverFactory {
                 return new ChromeDriver(chromeOptions);
             case "chrome":
             default:
-                System.setProperty(
-                        "webdriver.chrome.driver",
-                        new File(DriverFactory.class.getResource("/chromedriver.exe").getFile()).getPath());
+                String os = System.getProperty("os.name").toLowerCase();
+                if (os.contains("win")) {
+                    System.setProperty(
+                            "webdriver.chrome.driver",
+                            new File(DriverFactory.class.getResource("/chromedriver.exe").getFile()).getPath());
+                } else if (os.contains("nux") || os.contains("nix")) {
+                    System.setProperty(
+                            "webdriver.chrome.driver",
+                            new File(DriverFactory.class.getResource("/chromedriver").getFile()).getPath());
+                }
+
                 return new ChromeDriver();
         }
     }
