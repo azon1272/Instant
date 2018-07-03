@@ -148,7 +148,7 @@ public class GeneralActions {
         exec.executeScript("arguments[0].removeAttribute('disabled','disabled')", getElement());
     }
 
-    public void setFullName(String flName) throws InterruptedException {
+    public void setFullName() throws InterruptedException {
         Thread.sleep(1000);
         try {
             enableButton();

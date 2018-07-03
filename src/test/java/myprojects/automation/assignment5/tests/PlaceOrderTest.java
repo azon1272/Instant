@@ -21,7 +21,7 @@ public class PlaceOrderTest extends BaseTest {
         actions.useFor();
         actions.setPhoneNumber();
         actions.WeatherMessageBody();
-        actions.setFullName(fullName);
+        actions.setFullName();
         actions.setDayOfBirth();
         /*man or women*/
         actions.setGender();

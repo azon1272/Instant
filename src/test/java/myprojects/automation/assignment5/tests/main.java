@@ -15,7 +15,6 @@ public class main extends BaseTest {
         System.out.println(leaseRate);
         System.out.println(l4);
         System.out.println(l3);
-//        System.out.println(Math.rint(100 * l3) / 100.0);
 
 
     }

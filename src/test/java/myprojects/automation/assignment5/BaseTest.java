@@ -28,7 +28,7 @@ public abstract class BaseTest {
         // TODO create WebDriver instance according to passed parameters
         driver = new EventFiringWebDriver(DriverFactory.initDriver(browser));
 //        driver.register(new EventHandler());
-        
+
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         // unable to maximize window in mobile mode
