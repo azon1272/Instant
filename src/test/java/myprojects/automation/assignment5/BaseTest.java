@@ -24,7 +24,7 @@ public abstract class BaseTest {
 
     @BeforeClass
     @Parameters({"selenium.browser", "selenium.grid"})
-    public void setUp(@Optional("android") String browser, @Optional("http://localhost:4444/wd/hub") String gridUrl) {
+    public void setUp(@Optional("chrome") String browser, @Optional("http://localhost:4444/wd/hub") String gridUrl) {
         // TODO create WebDriver instance according to passed parameters
         driver = new EventFiringWebDriver(DriverFactory.initDriver(browser));
 //        driver.register(new EventHandler());
