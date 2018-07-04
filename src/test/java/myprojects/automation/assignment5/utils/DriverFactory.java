@@ -60,7 +60,7 @@ public class DriverFactory {
 				file.setExecutable(true,true);
                 System.setProperty(
                         "webdriver.chrome.driver",
-                        ("chromedriver"));
+                        ("chromedriver --headless"));
                 return new ChromeDriver();
         }
     }
