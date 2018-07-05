@@ -67,23 +67,49 @@ public class GeneralActions {
     }
 
     public String getGetTestField() {
-        String sms = driver.findElement(getTestField).getText();
+        String sms = null;
+        try {
+            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            sms = driver.findElement(getTestField).getText();
+        } catch (NoSuchElementException e) {
+            CustomReporter.log("SMS not Found");
+            CustomReporter.captureScreenshot(driver, "sms", "sms");
+        }
         return sms;
+
+
     }
 
     public void getCarList() {
-        List<WebElement> links = driver.findElements(carTypeList);
-        random = links.get(new Random().nextInt(links.size()));
-        random.click();
-        waitForContenLoad(Button);
+        try {
+            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            List<WebElement> links = driver.findElements(carTypeList);
+            random = links.get(new Random().nextInt(links.size()));
+            random.click();
+            waitForContenLoad(Button);
+            CustomReporter.log("Main page is passed");
+        } catch (NullPointerException e) {
+            CustomReporter.captureScreenshot(driver, "cartype", "cartype");
+        }
 
     }
 
     public void getBudgetList() {
-        List<WebElement> links1 = driver.findElements(budget);
-        random = links1.get(new Random().nextInt(links1.size()));
-        random.click();
-        waitForContenLoad(Button);
+        try {
+            driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+            List<WebElement> links1 = driver.findElements(budget);
+            random = links1.get(new Random().nextInt(links1.size()));
+            random.click();
+            waitForContenLoad(Button);
+            CustomReporter.log("\n" + "Passed budget Page");
+        } catch (NullPointerException e) {
+            CustomReporter.log("\n" + "Budget page is failed");
+            CustomReporter.captureScreenshot(driver, "budget", "budget");
+        }
+    }
+
+    public void enableButton() {
+        exec.executeScript("arguments[0].removeAttribute('disabled','disabled')", getElement());
     }
 
     public void useFor() {
@@ -110,46 +136,53 @@ public class GeneralActions {
     }
 
     public void WeatherMessageBody() throws InterruptedException {
-        Thread.sleep(1100);
-        String SMS = getGetTestField();
-        String smsArray[] = new String[SMS.length()];
-        WebElement yourButton = driver.findElement(By.className("button"));
-        exec.executeScript("arguments[0].removeAttribute('disabled','disabled')", yourButton);
-        for (int i = 0; i < SMS.length(); i++) {
-            smsArray[i] = String.valueOf(SMS.charAt(i));
-        }
+        By reciveSMSTITLE = By.xpath("//h1[.=\"Type received code\"]");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(reciveSMSTITLE));
+        Assert.assertEquals("Type received code", driver.findElement(reciveSMSTITLE).getText());
+        try {
+            driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            String SMS = getGetTestField();
+            String smsArray[] = new String[4];
+            Assert.assertTrue(driver.findElement(reciveSMSTITLE)
+                    .getText()
+                    .contains("Type received code"));
 
-        driver.findElement(inputSMS1).sendKeys(smsArray[0]);
-        Thread.sleep(200);
-        driver.findElement(inputSMS2).sendKeys(smsArray[1]);
-        Thread.sleep(200);
-        driver.findElement(inputSMS3).sendKeys(smsArray[2]);
-        Thread.sleep(200);
-        driver.findElement(inputSMS4).sendKeys(smsArray[3]);
+            WebElement yourButton = driver.findElement(By.className("button"));
+            exec.executeScript("arguments[0].removeAttribute('disabled','disabled')", yourButton);
+            Thread.sleep(500);
+            for (int i = 0; i < SMS.length(); i++) {
+                smsArray[i] = String.valueOf(SMS.charAt(i));
+                Thread.sleep(100);
+            }
+            driver.findElement(inputSMS1).sendKeys(smsArray[0]);
+            Thread.sleep(200);
+            driver.findElement(inputSMS2).sendKeys(smsArray[1]);
+            Thread.sleep(200);
+            driver.findElement(inputSMS3).sendKeys(smsArray[2]);
+            Thread.sleep(200);
+            driver.findElement(inputSMS4).sendKeys(smsArray[3]);
 //        isElementEnabled(Button, "SMS");
 
 
-        try {
-            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
             if (yourButton.isEnabled()) {
                 yourButton.click();
             } else {
                 driver.findElement(Button).click();
             }
             CustomReporter.log("\n Set SMS Page is passed");
-        } catch (NullPointerException e) {
+        } catch (NoSuchElementException e) {
             CustomReporter.logAction("Button not clicked on the set message page");
             CustomReporter.captureScreenshot(driver, "sms", "sms");
         }
 
-    }
 
-    public void enableButton() {
-        exec.executeScript("arguments[0].removeAttribute('disabled','disabled')", getElement());
     }
 
     public void setFullName() throws InterruptedException {
-        Thread.sleep(1000);
+//        Thread.sleep(1000);
+        By birthTite = By.xpath("//h1[.=\"What is your full name ?\"]");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(birthTite));
+        Assert.assertEquals("What is your full name ?", driver.findElement(birthTite).getText());
         try {
             enableButton();
             new Actions(driver).moveToElement(driver.findElement(inputField)).perform();
@@ -168,10 +201,12 @@ public class GeneralActions {
 
 
     public void setDayOfBirth() throws InterruptedException {
-        Thread.sleep(750);
-        enableButton();
+        By birthTtle = By.xpath("//h1[.=\"Your birthday\"]");
+        wait.until(ExpectedConditions.titleIs("Instant car loan approval - Canada"));
+        Assert.assertEquals("Your birthday", driver.findElement(birthTtle).getText());
         try {
             driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            enableButton();
             By d1 = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div[1]");
             By d2 = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div[2]");
             By m1 = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div[3]");
@@ -180,6 +215,7 @@ public class GeneralActions {
             By y2 = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div[6]");
             By y3 = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div[7]");
             By y4 = By.xpath("//*[@id=\"root\"]/div/div[2]/div/div/div[8]");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(d1));
             actions.moveToElement(driver.findElement(d1)).sendKeys("1").perform();
             Thread.sleep(150);
             actions.moveToElement(driver.findElement(d2)).sendKeys("1").perform();
@@ -187,13 +223,14 @@ public class GeneralActions {
             actions.moveToElement(driver.findElement(m1)).sendKeys("1").perform();
             Thread.sleep(150);
             actions.moveToElement(driver.findElement(m2)).sendKeys("1").perform();
-            Thread.sleep(150);
+            Thread.sleep(300);
+            driver.findElement(y1).click();
             actions.moveToElement(driver.findElement(y1)).sendKeys("1").perform();
-            Thread.sleep(150);
+            Thread.sleep(200);
             actions.moveToElement(driver.findElement(y2)).sendKeys("9").perform();
-            Thread.sleep(150);
+            Thread.sleep(200);
             actions.moveToElement(driver.findElement(y3)).sendKeys("8").perform();
-            Thread.sleep(150);
+            Thread.sleep(175);
             actions.moveToElement(driver.findElement(y4)).sendKeys("8").perform();
             CustomReporter.logAction("Birthday entered");
             Thread.sleep(500);
@@ -551,6 +588,24 @@ public class GeneralActions {
         return this;
     }
 
+    public boolean checkUser() {
+        Boolean returned = null;
+        By returnToHometitle = By.xpath("//h1[.=\"You are logged in as\"]");
+        By deleteProfileLink = By.className("button-logout");
+        By deleteButton = By.xpath("//*[@class=\"confirmation-buttons\"]/button[2]");
+
+        try {
+            driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(returnToHometitle));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(deleteProfileLink)).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(deleteButton)).click();
+            returned = true;
+        } catch (NoSuchElementException e) {
+            returned = false;
+        }
+
+        return returned;
+    }
 
     public GeneralActions returnToHome() {
         returnedButton.click();

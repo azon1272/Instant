@@ -75,6 +75,7 @@
             <artifactId>selenium-chrome-driver</artifactId>
             <version>3.13.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jenkins-ci.plugins/htmlpublisher -->
 
         <dependency>
             <groupId>org.testng</groupId>
