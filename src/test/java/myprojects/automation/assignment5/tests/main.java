@@ -8,8 +8,15 @@ public class main extends BaseTest {
 
 
     public static void main(String[] args) {
+        XMLStringBuffer buffer = new XMLStringBuffer();
+        buffer.push(XMLReporterConfig.TAG_TESTNG_RESULTS);
+        for (int i = 0; i < 100000; i++) {
+            buffer.push("test", "count", i + "");
+            buffer.pop();
+        }
 
-
+        buffer.pop();
+        Utils.writeUtf8File(".", XMLReporter.FILE_NAME, buffer, null);
     }
 
     @Test(enabled = false)
